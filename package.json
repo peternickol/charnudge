@@ -1,0 +1,43 @@
+{
+  "name": "charnudge",
+  "version": "0.1.0",
+  "description": "MIT-licensed, dependency-free character counter for the web.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://peternickol.github.io/charnudge/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peternickol/charnudge.git"
+  },
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "types": "./charnudge.d.ts",
+  "exports": {
+    ".": {
+      "types": "./charnudge.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "charnudge.d.ts",
+    "docs",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "demo": "python3 -m http.server 4176"
+  },
+  "keywords": [
+    "character",
+    "counter",
+    "textarea",
+    "input",
+    "maxlength"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  }
+}

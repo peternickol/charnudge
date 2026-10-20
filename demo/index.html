@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CharNudge</title>
+  <meta name="description" content="Live demo of CharNudge, a dependency-free character counter for text fields.">
+  <link rel="icon" href="../docs/logo.png">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f3ee;
+      --card: #ffffff;
+      --ink: #241c19;
+      --muted: #6d645e;
+      --line: #e4ddd4;
+      --accent: #ff5a45;
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #16181c;
+      --card: #202226;
+      --ink: #f3f1ed;
+      --muted: #b1b2b5;
+      --line: #3a3e45;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 36px 20px 64px; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-end;
+      margin-bottom: 8px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 40px;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .brand { display: flex; gap: 14px; align-items: center; min-width: 0; }
+    .brand img { width: 84px; height: auto; }
+    .lede { margin: 8px 0 0; max-width: 62ch; color: var(--muted); font-size: 16px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; flex: none; }
+    button.action {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+    button.action:hover { border-color: var(--accent); }
+    button.action:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .stack { display: flex; flex-direction: column; gap: 16px; margin-top: 22px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    label { display: block; font-weight: 650; }
+    label span { font-weight: 500; color: var(--muted); }
+    textarea, input[type="text"] {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--bg);
+      color: var(--ink);
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.45;
+      padding: 14px 16px;
+    }
+    textarea { min-height: 148px; resize: vertical; }
+    input[type="text"] { min-height: 52px; }
+    textarea:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    pre {
+      margin: 0;
+      padding: 14px 16px;
+      overflow: auto;
+      border-radius: 16px;
+      background: #241c19;
+      color: #f6f3ee;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    footer { margin-top: 28px; color: var(--muted); font-size: 14px; }
+    footer a { color: inherit; }
+    @media (max-width: 640px) {
+      header { flex-direction: column; align-items: flex-start; }
+      h1 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="../docs/logo.png" alt="CharNudge">
+        <div>
+          <h1>CharNudge</h1>
+          <p class="lede">A field shows how many characters are used against its limit. The badge stays quiet, then turns coral as the limit gets close.</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="action" id="theme">Use the dark badge</button>
+      </div>
+    </header>
+
+    <div class="stack">
+      <section class="card">
+        <h2>One hundred characters</h2>
+        <label for="note">Note <span>The badge sits in the corner.</span>
+          <textarea id="note" data-charnudge data-charnudge-max="100" placeholder="Write until the badge nudges."></textarea>
+        </label>
+      </section>
+
+      <section class="card">
+        <form id="short-form">
+          <div class="row">
+            <h2>From maxlength</h2>
+            <button type="reset" class="action">Clear</button>
+          </div>
+          <label for="name">Short name <span>The field stops at 40, so the badge stays at 40.</span>
+            <input id="name" type="text" name="name" maxlength="40" data-charnudge data-charnudge-max="80" autocomplete="off">
+          </label>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>A longer note</h2>
+        <label for="build">Build note <span>Same counter, limit 1024.</span>
+          <textarea id="build" data-charnudge data-charnudge-max="1024" rows="4" placeholder="Workflow, preferences, or questions."></textarea>
+        </label>
+      </section>
+
+      <pre><code>import { start } from './src/index.js';
+
+start();</code></pre>
+      <p class="lede">This page marks the fields with <code>data-charnudge</code>. The badge uses the smaller of its limit and the field's <code>maxlength</code>. A field with neither uses 100.</p>
+    </div>
+
+    <footer>
+      <p>MIT licensed. <a href="https://github.com/peternickol/charnudge/releases/tag/v0.1.0">v0.1.0</a> · <a href="https://github.com/peternickol/charnudge">peternickol/charnudge</a></p>
+    </footer>
+  </div>
+  <script type="module">
+    import { start } from '../src/index.js';
+
+    start();
+
+    const theme = document.querySelector('#theme');
+    theme.addEventListener('click', () => {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (dark) {
+        document.documentElement.removeAttribute('data-theme');
+        theme.textContent = 'Use the dark badge';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        theme.textContent = 'Use the light badge';
+      }
+    });
+  </script>
+</body>
+</html>
